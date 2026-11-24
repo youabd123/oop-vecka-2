@@ -41,7 +41,7 @@ public sealed class TodosController(TodoService service, AppDbContext db) : Cont
         var result = new List<object>();
         foreach (var t in all)
         {
-            if (t.DueDate != null && t.DueDate < DateTime.Now && t.IsDone == false)
+            if (TodoDeadlines.IsOverdue(t, DateTime.Now))
             {
                 result.Add(new { t.Id, t.Title, t.DueDate, DaysLate = (DateTime.Now - t.DueDate.Value).Days });
             }
