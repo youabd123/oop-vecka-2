@@ -23,4 +23,26 @@ public class TodoDeadlinesTests
 
         Assert.False(result);
     }
+
+    [Theory]
+    [InlineData(true, true)]
+    [InlineData(false, false)]
+    [Trait("Krav", "AK-2.3")]
+    public void Completed_or_undated_todos_are_not_overdue(
+    bool isDone,
+    bool hasDueDate)
+    {
+        var today = new DateOnly(2026, 11, 25);
+
+        var todo = new Todo
+        {
+            Title = "Skicka offert",
+            IsDone = isDone,
+            DueDate = hasDueDate ? today.AddDays(-1) : null
+        };
+
+        var result = TodoDeadlines.IsOverdue(todo, today);
+
+        Assert.False(result);
+    }
 }
