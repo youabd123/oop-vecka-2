@@ -12,7 +12,7 @@ public interface ITodoRepository
     Task AddAsync(Todo todo, CancellationToken cancellationToken);
 
     Task SaveChangesAsync(CancellationToken cancellationToken);
-    
+
     Task<IReadOnlyList<Todo>> ListOverdueAsync(
     DateOnly today,
     CancellationToken cancellationToken);

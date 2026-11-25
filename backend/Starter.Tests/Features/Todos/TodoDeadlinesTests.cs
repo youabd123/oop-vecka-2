@@ -13,7 +13,7 @@ public class TodoDeadlinesTests
         var todo = new Todo
         {
             Title = "Skicka offert",
-          DueDate = new DateOnly(2026, 11, 24),
+            DueDate = new DateOnly(2026, 11, 24),
             IsDone = false
         };
 

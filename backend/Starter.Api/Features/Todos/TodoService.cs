@@ -48,22 +48,22 @@ public sealed class TodoService(ITodoRepository repository, TimeProvider clock)
 
     public async Task<IReadOnlyList<OverdueTodoResponse>> ListOverdueAsync(
     CancellationToken cancellationToken)
-{
-    var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Stockholm");
-    var localNow = TimeZoneInfo.ConvertTime(clock.GetUtcNow(), timeZone);
-    var today = DateOnly.FromDateTime(localNow.DateTime);
-
-    var todos = await repository.ListOverdueAsync(today, cancellationToken);
-
-    return todos.Select(todo =>
     {
-        var dueDate = todo.DueDate!.Value;
+        var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Stockholm");
+        var localNow = TimeZoneInfo.ConvertTime(clock.GetUtcNow(), timeZone);
+        var today = DateOnly.FromDateTime(localNow.DateTime);
 
-        return new OverdueTodoResponse(
-            todo.Id,
-            todo.Title,
-            dueDate,
-            today.DayNumber - dueDate.DayNumber);
-    }).ToList();
-}
+        var todos = await repository.ListOverdueAsync(today, cancellationToken);
+
+        return todos.Select(todo =>
+        {
+            var dueDate = todo.DueDate!.Value;
+
+            return new OverdueTodoResponse(
+                todo.Id,
+                todo.Title,
+                dueDate,
+                today.DayNumber - dueDate.DayNumber);
+        }).ToList();
+    }
 }

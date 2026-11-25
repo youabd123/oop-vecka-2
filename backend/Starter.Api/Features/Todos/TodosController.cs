@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Starter.Api.Shared;
-
 namespace Starter.Api.Features.Todos;
 
 /// <summary>Thin on purpose: receive the request, call the service, translate the result to HTTP.</summary>
@@ -32,13 +31,13 @@ public sealed class TodosController(TodoService service) : ControllerBase
     }
 
     // Snabbfix inför kunddemon. Funkar på min dator! /Kim
-   [HttpGet("overdue")]
-public async Task<ActionResult<IReadOnlyList<OverdueTodoResponse>>> Overdue(
-    CancellationToken cancellationToken)
-{
-    var result = await service.ListOverdueAsync(cancellationToken);
-    return Ok(result);
-}
+    [HttpGet("overdue")]
+    public async Task<ActionResult<IReadOnlyList<OverdueTodoResponse>>> Overdue(
+     CancellationToken cancellationToken)
+    {
+        var result = await service.ListOverdueAsync(cancellationToken);
+        return Ok(result);
+    }
 
     private ObjectResult ToProblem<T>(OperationResult<T> result)
     {
