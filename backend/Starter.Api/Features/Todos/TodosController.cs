@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Starter.Api.Data;
 using Starter.Api.Shared;
 
 namespace Starter.Api.Features.Todos;
@@ -8,7 +6,7 @@ namespace Starter.Api.Features.Todos;
 /// <summary>Thin on purpose: receive the request, call the service, translate the result to HTTP.</summary>
 [ApiController]
 [Route("api/todos")]
-public sealed class TodosController(TodoService service, AppDbContext db) : ControllerBase
+public sealed class TodosController(TodoService service) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<IReadOnlyList<TodoResponse>>> List(CancellationToken cancellationToken)
