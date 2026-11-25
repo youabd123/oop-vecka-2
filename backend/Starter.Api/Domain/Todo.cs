@@ -11,5 +11,5 @@ public sealed class Todo
 
     public DateTimeOffset CreatedAt { get; set; }
 
-    public DateTime? DueDate { get; set; }
+    public DateOnly? DueDate { get; set; }
 }

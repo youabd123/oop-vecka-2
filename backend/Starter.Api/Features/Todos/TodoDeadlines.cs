@@ -4,10 +4,10 @@ namespace Starter.Api.Features.Todos;
 
 public static class TodoDeadlines
 {
-    public static bool IsOverdue(Todo todo, DateTime now)
+    public static bool IsOverdue(Todo todo, DateOnly today)
     {
-        return todo.DueDate != null
-            && todo.DueDate < now
-            && todo.IsDone == false;
+        return todo.DueDate.HasValue
+            && todo.DueDate.Value < today
+            && !todo.IsDone;
     }
 }

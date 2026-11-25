@@ -34,21 +34,13 @@ public sealed class TodosController(TodoService service, AppDbContext db) : Cont
     }
 
     // Snabbfix inför kunddemon. Funkar på min dator! /Kim
-    [HttpGet("overdue")]
-    public async Task<IActionResult> Overdue()
-    {
-        var all = await db.Todos.ToListAsync();
-        var result = new List<object>();
-        foreach (var t in all)
-        {
-            if (TodoDeadlines.IsOverdue(t, DateTime.Now))
-            {
-                result.Add(new { t.Id, t.Title, t.DueDate, DaysLate = (DateTime.Now - t.DueDate.Value).Days });
-            }
-        }
-
-        return Ok(result);
-    }
+   [HttpGet("overdue")]
+public async Task<ActionResult<IReadOnlyList<OverdueTodoResponse>>> Overdue(
+    CancellationToken cancellationToken)
+{
+    var result = await service.ListOverdueAsync(cancellationToken);
+    return Ok(result);
+}
 
     private ObjectResult ToProblem<T>(OperationResult<T> result)
     {

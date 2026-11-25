@@ -13,13 +13,13 @@ public class TodoDeadlinesTests
         var todo = new Todo
         {
             Title = "Skicka offert",
-            DueDate = new DateTime(2026, 11, 24),
+          DueDate = new DateOnly(2026, 11, 24),
             IsDone = false
         };
 
         var now = new DateTime(2026, 11, 24, 23, 59, 0);
 
-        var result = TodoDeadlines.IsOverdue(todo, now);
+        var result = TodoDeadlines.IsOverdue(todo, DateOnly.FromDateTime(now));
 
         Assert.False(result);
     }
