@@ -1,13 +1,32 @@
-name: Hello CI
-on: [pull_request]
+name: Backend CI
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
 
 jobs:
-  hello:
+  backend:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v7
-      - name: Säg hej
-        env:
-          BRANCH: ${{ github.head_ref }}
-        run: echo "Hej från GitHub! Jag kör på branchen $BRANCH"
-      - run: ls -la
+      - name: Hämta koden
+        uses: actions/checkout@v4
+
+      - name: Installera .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Återställ paket
+        run: dotnet restore backend/Starter.slnx
+
+      - name: Kontrollera formatering
+        run: dotnet format backend/Starter.slnx --verify-no-changes --no-restore
+
+      - name: Bygg
+        run: dotnet build backend/Starter.slnx --no-restore
+
+      - name: Kör tester
+        run: dotnet test backend/Starter.slnx --no-build
